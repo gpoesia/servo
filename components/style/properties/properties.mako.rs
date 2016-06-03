@@ -1222,10 +1222,12 @@ pub mod style_structs {
                     self.outline_width != ::app_units::Au(0)
                 }
             % elif style_struct.trait_name == "Position":
+            % if product == "servo":
                 #[inline]
                 fn clone_align_items(&self) -> longhands::align_items::computed_value::T {
                     self.align_items.clone()
                 }
+            % endif
                 #[inline]
                 fn clone_align_self(&self) -> longhands::align_self::computed_value::T {
                     self.align_self.clone()
@@ -1947,6 +1949,7 @@ pub fn cascade<C: ComputedValues>(
         }
     }
 
+    % if "align-items" in data.longhands_by_name:
     {
         use self::style_struct_traits::Position;
         use computed_values::align_self::T as align_self;
@@ -1963,6 +1966,7 @@ pub fn cascade<C: ComputedValues>(
             style.mutate_position().set_align_self(self_align);
         }
     }
+    % endif
 
     // The initial value of border-*-width may be changed at computed value time.
     % for side in ["top", "right", "bottom", "left"]:
