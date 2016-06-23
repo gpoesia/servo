@@ -368,11 +368,6 @@ impl<'le> TElement for GeckoElement<'le> {
             reinterpret_string(ptr, length)
         }
     }
-
-    #[inline]
-    fn get_attrs<'a>(&'a self, _name: &Atom) -> Vec<&'a str> {
-        unimplemented!()
-    }
 }
 
 impl<'le> PresentationalHintsSynthetizer for GeckoElement<'le> {
@@ -518,7 +513,9 @@ impl<'le> ::selectors::Element for GeckoElement<'le> {
                 self.get_attr(ns, name).map_or(false, |attr| test(attr))
             },
             NamespaceConstraint::Any => {
-                self.get_attrs(name).iter().any(|attr| test(*attr))
+                // We should probably pass the atom into gecko and let it match
+                // against attributes across namespaces.
+                unimplemented!()
             }
         }
     }
