@@ -207,7 +207,10 @@ pub trait TElement : Sized + Copy + Clone + ElementExt + PresentationalHintsSynt
 
     fn get_state(&self) -> ElementState;
 
+    // These two methods are significantly faster than get_attr on Gecko's DOM.
+    // Use them unless you really need get_attr.
     fn has_attr(&self, namespace: &Namespace, attr: &Atom) -> bool;
+    fn attr_equals(&self, namespace: &Namespace, attr: &Atom, value: &Atom) -> bool;
 
     fn get_attr<'a>(&'a self, namespace: &Namespace, attr: &Atom) -> Option<&'a str>;
 
