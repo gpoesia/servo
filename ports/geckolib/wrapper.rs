@@ -360,6 +360,11 @@ impl<'le> TElement for GeckoElement<'le> {
     }
 
     #[inline]
+    fn has_attr(&self, namespace: &Namespace, attr: &Atom) -> bool {
+        unimplemented!()
+    }
+
+    #[inline]
     fn get_attr<'a>(&'a self, namespace: &Namespace, name: &Atom) -> Option<&'a str> {
         unsafe {
             let mut length: u32 = 0;
