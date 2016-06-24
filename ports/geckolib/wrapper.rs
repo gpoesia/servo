@@ -510,30 +510,38 @@ impl<'le> ::selectors::Element for GeckoElement<'le> {
         }
     }
 
-    fn match_attr<F>(&self, attr: &AttrSelector, test: F) -> bool where F: Fn(&str) -> bool {
-        // FIXME(bholley): This is copy-pasted from the servo wrapper's version.
-        // We should find a way to share it.
-        let name = if self.is_html_element_in_html_document() {
-            &attr.lower_name
-        } else {
-            &attr.name
-        };
-        match attr.namespace {
-            NamespaceConstraint::Specific(ref ns) => {
-                self.get_attr(ns, name).map_or(false, |attr| test(attr))
-            },
-            NamespaceConstraint::Any => {
-                // We should probably pass the atom into gecko and let it match
-                // against attributes across namespaces.
-                unimplemented!()
-            }
-        }
-    }
-
     fn is_html_element_in_html_document(&self) -> bool {
         unsafe {
             Gecko_IsHTMLElementInHTMLDocument(self.element)
         }
+    }
+}
+
+impl<'le> ::selectors::MatchAttr for GeckoElement<'le> {
+    type AttrString = Atom;
+    fn match_attr_has(&self, attr: &AttrSelector) -> bool {
+        unimplemented!()
+    }
+    fn match_attr_equals(&self, attr: &AttrSelector, value: &Self::AttrString) -> bool {
+        unimplemented!()
+    }
+    fn match_attr_equals_ignore_case(&self, attr: &AttrSelector, value: &Self::AttrString) -> bool {
+        unimplemented!()
+    }
+    fn match_attr_includes(&self, attr: &AttrSelector, value: &Self::AttrString) -> bool {
+        unimplemented!()
+    }
+    fn match_attr_dash(&self, attr: &AttrSelector, value: &Self::AttrString) -> bool {
+        unimplemented!()
+    }
+    fn match_attr_prefix(&self, attr: &AttrSelector, value: &Self::AttrString) -> bool {
+        unimplemented!()
+    }
+    fn match_attr_substring(&self, attr: &AttrSelector, value: &Self::AttrString) -> bool {
+        unimplemented!()
+    }
+    fn match_attr_suffix(&self, attr: &AttrSelector, value: &Self::AttrString) -> bool {
+        unimplemented!()
     }
 }
 
