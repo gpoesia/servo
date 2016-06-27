@@ -33,7 +33,7 @@ log = "0.3.5"
 matches = "0.1"
 num-traits = "0.1.32"
 rustc-serialize = "0.3"
-selectors = {version = "0.7", features = ["heap_size", "unstable"]}
+selectors = {version="0.7", features = ["heap_size", "unstable"], git="https://github.com/bholley/rust-selectors", branch = "attr_refactor"}
 serde = {version = "0.7.11", optional = true}
 serde_macros = {version = "0.7.11", optional = true}
 smallvec = "0.1"
