@@ -27,7 +27,7 @@ MAX_LICENSE_LINESPAN = max(len(license.splitlines()) for license in licenses)
 # File patterns to include in the non-WPT tidy check.
 FILE_PATTERNS_TO_CHECK = ["*.rs", "*.rc", "*.cpp", "*.c",
                           "*.h", "Cargo.lock", "*.py",
-                          "*.toml", "*.webidl", "*.json"]
+                          "*.webidl", "*.json"]
 
 # File patterns that are ignored for all tidy and lint checks.
 FILE_PATTERNS_TO_IGNORE = ["*.#*", "*.pyc"]
