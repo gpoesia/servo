@@ -92,6 +92,7 @@ pub struct HTMLIFrameElement {
     sandbox_allowance: Cell<Option<SandboxAllowance>>,
     load_blocker: DOMRefCell<Option<LoadBlocker>>,
     visibility: Cell<bool>,
+    suppress_load_events: Cell<bool>,
 }
 
 impl HTMLIFrameElement {
@@ -227,6 +228,8 @@ impl HTMLIFrameElement {
     /// https://html.spec.whatwg.org/multipage/#process-the-iframe-attributes
     fn process_the_iframe_attributes(&self, mode: ProcessingMode) {
         // TODO: srcdoc
+        println!("******************************************* processing iframe attributes");
+        self.suppress_load_events.set(false);
 
         let window = window_from_node(self);
 
@@ -331,6 +334,7 @@ impl HTMLIFrameElement {
             sandbox_allowance: Cell::new(None),
             load_blocker: DOMRefCell::new(None),
             visibility: Cell::new(true),
+            suppress_load_events: Cell::new(false),
         }
     }
 
@@ -388,10 +392,13 @@ impl HTMLIFrameElement {
         // TODO Step 3 - set child document  `mut iframe load` flag
 
         // Step 4
-        self.upcast::<EventTarget>().fire_event(atom!("load"));
+        if !self.suppress_load_events.get() {
+            self.upcast::<EventTarget>().fire_event(atom!("load"));
+            self.suppress_load_events.set(true);
 
-        let mut blocker = self.load_blocker.borrow_mut();
-        LoadBlocker::terminate(&mut blocker);
+            let mut blocker = self.load_blocker.borrow_mut();
+            LoadBlocker::terminate(&mut blocker);
+        }
 
         // TODO Step 5 - unset child document `mut iframe load` flag
 
